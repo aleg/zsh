@@ -250,5 +250,8 @@ alias zthm="vim ~/.zsh-powerlevel9k"
 alias omz="vim ~/.oh-my-zsh"
 alias ll="ls -laG"
 
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+# pyenv and pyenv-virtualevn
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+fi
