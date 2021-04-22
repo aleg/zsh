@@ -5,23 +5,36 @@
 export ZSH="$HOME/.oh-my-zsh"
 
 export EDITOR=vim
+export TERM="xterm-256color"
 
+# -------------------------------------------------------------------
+# Go
+export GOPATH=$HOME/Documents/dev/go
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOBIN
+export PATH="/usr/local/opt/node@14/bin:$PATH"
+
+# -------------------------------------------------------------------
+# Postgresql (with Docker)
+# export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/opt/libpq/bin:$PATH" 
+export PGHOST="localhost"
+export PGPASSWORD="password"
+
+# Improve performance of pasting long commands into the shell
+# (slow due to the `zsh-syntax-highlighting` plugin that uses
+# the bracketed paste magic function).
+zstyle ':bracketed-paste-magic' active-widgets '.self-*'
+
+# -------------------------------------------------------------------
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 # ZSH_THEME="robbyrussell"
-# ZSH_THEME="agnoster"
-# ZSH_THEME="spaceship"
-# ZSH_THEME="geometry"
-# ZSH_THEME="bullet-train"
-# ZSH_THEME="materialshell"
 
 ZSH_THEME="powerlevel9k/powerlevel9k"
 source $HOME/.zsh-powerlevel9k
-# source $HOME/.zsh-powerlevel9k-simple
-# source $HOME/.zsh-powerlevel9k-rjorgensons
-# source $HOME/.zsh-powerlevel9k-mavam  
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -39,8 +52,14 @@ source $HOME/.zsh-powerlevel9k
 # Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
 
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
+
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS=true
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -70,11 +89,11 @@ source $HOME/.zsh-powerlevel9k
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-
 # Edit line in VIM
 autoload -U edit-command-line
 zle -N edit-command-line
-bindkey "^x^x" edit-command-line
+# bindkey "^x^x" edit-command-line
+bindkey "^z^z" edit-command-line
 
 
 # =============================================================================
@@ -175,13 +194,14 @@ zstyle ':completion:*:descriptions' format '%B%d%b'
 
 # zstyle ":completion:*:default" list-colors ${(s.:.)LS_COLORS}
 
+
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    aws
+    # aws  # TODO: breaks tmux when awscli was installed using pyenv
     brew
     celery
     compleat
@@ -201,6 +221,7 @@ plugins=(
 )
 
 ZSH_DISABLE_COMPFIX=true
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -220,23 +241,14 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
-
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-
-# Aliases
-alias zsh-config="vim ~/.zshrc"
-alias zsh-theme-config="vim ~/.zsh-powerlevel9k"
-alias ohmyzsh="vim ~/.oh-my-zsh"
-
+alias zcfg="vim ~/.zshrc"
+alias zthm="vim ~/.zsh-powerlevel9k"
+alias omz="vim ~/.oh-my-zsh"
 alias ll="ls -laG"
 
-# pyenv and pyenv-virtualevn
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
-fi
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
